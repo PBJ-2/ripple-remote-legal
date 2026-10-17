@@ -17,35 +17,36 @@
 <body>
 
 <h1>Ripple Remote 개인정보처리방침</h1>
-<p class="meta">시행일: 2026-10-15 · 운영자: RippleWorks · 문의: ehxhfl92@gmail.com · 정본 주소: https://pbj-2.github.io/ripple-remote-legal/</p>
+<p class="meta">시행일: 2026-10-17(이전 판 2026-10-15) · 운영자: RippleWorks · 문의: ehxhfl92@gmail.com · 정본 주소: https://pbj-2.github.io/ripple-remote-legal/</p>
 
-<p>Ripple Remote는 이용자 본인의 Mac(호스트)을 원격으로 쓰는 앱입니다. <strong>회원가입·로그인이 없고, 운영자 서버에 대화 내용을 저장하지 않습니다.</strong> 휴대폰에서 보낸 글·사진·파일은 이용자의 Mac까지 <strong>종단간 암호화로만</strong> 오가며, 중간에 거치는 중계 서버는 내용을 읽을 수 없습니다. 광고·분석·추적 도구를 사용하지 않습니다.</p>
+<p>Ripple Remote는 이용자 본인의 컴퓨터(호스트)를 원격으로 쓰는 앱입니다. <strong>회원가입·로그인이 없고, 운영자 서버에 대화 내용을 저장하지 않습니다.</strong> 휴대폰에서 보낸 글·사진·파일과 컴퓨터가 보내는 알림 내용은 휴대폰과 이용자의 컴퓨터 사이에서 <strong>종단간 암호화로만</strong> 오가며, 중간에 거치는 중계 서버와 푸시 서비스는 내용을 읽을 수 없습니다. 광고·분석·추적 도구를 사용하지 않습니다.</p>
 
 <h2>1. 처리하는 정보</h2>
 <table>
 <tr><th>항목</th><th>목적</th><th>위치</th></tr>
-<tr><td>연결 키(호스트 공개키·페어링 토큰·기기 ID)</td><td>내 Mac과 암호화 연결을 맺기 위해</td><td>휴대폰 보안 저장소(OS 키체인·키스토어)에만 저장</td></tr>
-<tr><td>주고받는 글·사진·파일(첨부)</td><td>내 Mac에 지시를 보내고 답을 보기 위해</td><td>전송 중 종단간 암호화, Mac에 도착 후에는 Mac에만 보관</td></tr>
-<tr><td>푸시 토큰·알림 언어(푸시를 켠 경우에만)</td><td>승인 요청·작업 완료·실패 알림을 보내기 위해</td><td>휴대폰 보안 저장소와 이용자 본인의 Mac에 저장</td></tr>
+<tr><td>연결 키(호스트 공개키·페어링 토큰·기기 ID)</td><td>내 컴퓨터와 암호화 연결을 맺기 위해</td><td>휴대폰 보안 저장소(OS 키체인·키스토어)에만 저장</td></tr>
+<tr><td>주고받는 글·사진·파일(첨부)</td><td>내 컴퓨터에 지시를 보내고 답을 보기 위해</td><td>전송 중 종단간 암호화, 컴퓨터에 도착 후에는 컴퓨터에만 보관</td></tr>
+<tr><td>푸시 토큰·알림 언어·알림 암호 키(푸시를 켠 경우에만)</td><td>승인 요청·작업 완료·실패 알림을 보내고, 알림 내용을 암호화하기 위해</td><td>휴대폰 보안 저장소와 이용자 본인의 컴퓨터에 저장</td></tr>
 <tr><td>보내지 못한 대기 메시지</td><td>연결이 끊겼을 때 다시 보내기 위해</td><td>휴대폰 안에만 임시 저장, 전송 확인 후 삭제</td></tr>
 <tr><td>화면·언어 설정, 앱 버전</td><td>앱 표시를 위해</td><td>휴대폰 안에만 저장</td></tr>
 </table>
 
 <h2>2. 종단간 암호화</h2>
-<p>휴대폰과 Mac은 연결될 때마다 일회용 키로 암호화 채널을 엽니다(X25519, tweetnacl crypto_box). 페어링 QR에 담긴 Mac 공개키로 진짜 내 Mac인지 확인하므로, 중계 서버가 중간에서 가로채거나 위조할 수 없습니다. 중계 서버는 암호화된 바이트를 전달만 하고 <strong>저장하지 않습니다</strong>(방 인증용 호스트 비밀번호 해시만 보관).</p>
+<p>휴대폰과 컴퓨터는 연결될 때마다 일회용 키로 암호화 채널을 엽니다(X25519, tweetnacl crypto_box). 페어링 QR에 담긴 컴퓨터 공개키로 진짜 내 컴퓨터인지 확인하므로, 중계 서버가 중간에서 가로채거나 위조할 수 없습니다. 중계 서버는 암호화된 바이트를 전달만 하고 <strong>저장하지 않습니다</strong>(방 인증용 호스트 비밀번호 해시만 보관).</p>
+<p>알림을 켜면 휴대폰이 알림 전용 키를 만들어 이 암호화 채널 안으로만 컴퓨터에 건넵니다. 컴퓨터는 알림의 세션 이름과 작업 요약을 이 키로 암호화(ChaCha20-Poly1305)해 보내고, 휴대폰이 받은 뒤에 풉니다.</p>
 
 <h2>3. 보관 기간과 파기</h2>
 <ul>
-<li>연결 키·대기 메시지: 설정에서 <strong>연결 해제를 하면 즉시 삭제</strong>됩니다(연결된 상태에서 해제하면 Mac에 등록된 푸시 토큰도 함께 삭제). 앱을 지우면 휴대폰 안의 데이터가 모두 사라집니다.</li>
-<li>대화 기록: 이용자 본인의 Mac에만 남으며, Mac에서 직접 지울 수 있습니다. 운영자는 열람·보관하지 않습니다.</li>
-<li>푸시 알림: 승인·완료·실패 상태와 세션 번호만 담기며, <strong>대화 내용은 포함되지 않습니다</strong>.</li>
+<li>연결 키·대기 메시지: 설정에서 <strong>연결 해제를 하면 즉시 삭제</strong>됩니다(연결된 상태에서 해제하면 컴퓨터에 등록된 푸시 토큰과 알림 암호 키도 함께 삭제). 앱을 지우면 휴대폰 안의 데이터가 모두 사라집니다.</li>
+<li>대화 기록: 이용자 본인의 컴퓨터에만 남으며, 컴퓨터에서 직접 지울 수 있습니다. 운영자는 열람·보관하지 않습니다.</li>
+<li>푸시 알림: 세션 이름과 작업 요약(마지막 답변의 앞부분, 승인 요청 도구와 내용, 실패 이유)이 담기며, <strong>종단간 암호화되어 휴대폰에서만 열립니다</strong>. 푸시 서비스에는 고정 상태 문구와 세션 번호만 평문으로 전달됩니다.</li>
 </ul>
 
 <h2>4. 제3자 제공과 국외 이전</h2>
 <table>
 <tr><th>제공처</th><th>항목</th><th>목적</th></tr>
-<tr><td>Expo 푸시 서비스(푸시를 켠 경우에만)</td><td>푸시 토큰, 상태 알림 문구(대화 내용 없음), 세션 번호</td><td>Apple APNs·Google FCM으로 알림 전달</td></tr>
-<tr><td>Cloudflare(중계 서버 hosting)</td><td>암호화된 전달 바이트(내용 판독 불가), 방 인증 해시</td><td>휴대폰–Mac 실시간 중계</td></tr>
+<tr><td>Expo 푸시 서비스(푸시를 켠 경우에만)</td><td>푸시 토큰, 고정 상태 문구, 세션 번호, 암호화된 알림 내용(판독 불가)</td><td>Apple APNs·Google FCM으로 알림 전달</td></tr>
+<tr><td>Cloudflare(중계 서버 hosting)</td><td>암호화된 전달 바이트(내용 판독 불가), 방 인증 해시</td><td>휴대폰–컴퓨터 실시간 중계</td></tr>
 </table>
 <p>중계 서버는 누구나 직접 둘 수 있는 구조이며(self-hostable), 위탁처의 보관 정책은 각 사의 방침을 따릅니다. 법령 요구가 없는 한 위 표 외의 제3자에게 정보를 주지 않습니다.</p>
 
@@ -53,15 +54,15 @@
 <ul>
 <li>카메라: 페어링 QR 스캔과 대화에 붙일 사진 촬영에만 씁니다.</li>
 <li>사진 보관함·파일: 대화에 첨부할 항목을 고를 때만 씁니다.</li>
-<li>알림: 끈 상태가 기본이며, 설정에서 켠 경우에만 상태 알림을 받습니다.</li>
+<li>알림: 끈 상태가 기본이며, 켠 경우에만 알림을 받습니다.</li>
 <li>마이크·위치·연락처는 쓰지 않습니다(마이크 권한은 빌드에서 제외).</li>
 </ul>
 
 <h2>6. 이용자의 권리</h2>
-<p>연결 해제·앱 삭제로 휴대폰 안의 데이터를 지울 수 있고, Mac에 남은 기록·토큰의 삭제를 문의 이메일로 요청할 수 있습니다. 요청받은 날로부터 지체 없이 조치합니다.</p>
+<p>연결 해제·앱 삭제로 휴대폰 안의 데이터를 지울 수 있고, 컴퓨터에 남은 기록·토큰의 삭제를 문의 이메일로 요청할 수 있습니다. 요청받은 날로부터 지체 없이 조치합니다.</p>
 
 <h2>7. 안전성 확보 조치</h2>
-<p>연결 키는 OS 보안 저장소에만 두고, 모든 전송 구간은 TLS 위에서 한 번 더 종단간 암호화합니다. 소스에는 분석·추적 코드가 없습니다.</p>
+<p>연결 키와 알림 암호 키는 OS 보안 저장소에만 두고, 모든 전송 구간은 TLS 위에서 한 번 더 종단간 암호화합니다. 소스에는 분석·추적 코드가 없습니다.</p>
 
 <h2>8. 어린이</h2>
 <p>14세 미만 어린이를 대상으로 하지 않으며, 어린이의 정보가 보관된 것을 알면 즉시 파기합니다. 보호자는 문의 이메일로 연락해 주십시오.</p>
@@ -70,31 +71,34 @@
 <p>개인정보 보호책임자: RippleWorks (ehxhfl92@gmail.com)</p>
 
 <h2>10. 방침 변경</h2>
-<p>바뀌면 이 페이지에 시행일과 함께 미리 알립니다.</p>
+<p>바뀌면 이 페이지에 시행일과 함께 미리 알립니다. 2026-10-17 변경: 알림에 세션 이름과 작업 요약을 암호화해 담도록 바뀌었고, 호스트를 "Mac"에서 "컴퓨터"로 표기합니다.</p>
 
 <p>Ripple Remote는 Anthropic·OpenAI와 제휴하지 않은 독립 앱입니다.</p>
 
 <hr>
 
 <h1>Ripple Remote Privacy Policy</h1>
-<p class="meta">Effective: 2026-10-15 · Operator: RippleWorks · Contact: ehxhfl92@gmail.com · Canonical: https://pbj-2.github.io/ripple-remote-legal/</p>
+<p class="meta">Effective: 2026-10-17 (previous version 2026-10-15) · Operator: RippleWorks · Contact: ehxhfl92@gmail.com · Canonical: https://pbj-2.github.io/ripple-remote-legal/</p>
 
-<p>Ripple Remote remotely controls <strong>your own Mac</strong>. There is <strong>no account, no sign-in, and no conversation content stored on the operator's servers</strong>. Everything you send travels <strong>end-to-end encrypted</strong> to your Mac; the relay in the middle cannot read it. No ads, analytics, or tracking.</p>
+<p>Ripple Remote remotely controls <strong>your own computer</strong>. There is <strong>no account, no sign-in, and no conversation content stored on the operator's servers</strong>. Everything you send, and the content of the notifications your computer sends back, travels <strong>end-to-end encrypted</strong> between your phone and your computer; neither the relay in the middle nor the push service can read it. No ads, analytics, or tracking.</p>
 
 <h2>1. What we handle</h2>
-<p>Pairing keys (kept in the phone's secure storage only); messages, photos, and files you send (encrypted in transit, kept afterwards only on your Mac); push token and notification language (<strong>only if you enable push</strong>, kept on the phone and your Mac); unsent queued messages (on the phone only, deleted once delivered); display/language settings and app version (on the phone only).</p>
+<p>Pairing keys (kept in the phone's secure storage only); messages, photos, and files you send (encrypted in transit, kept afterwards only on your computer); push token, notification language and a notification encryption key (<strong>only if you enable push</strong>, kept on the phone and your computer); unsent queued messages (on the phone only, deleted once delivered); display/language settings and app version (on the phone only).</p>
 
-<h2>2. Retention and deletion</h2>
-<p><strong>Unpair</strong> in Settings to immediately delete keys and queued messages on the phone (while connected, this also removes the push token from your Mac). Uninstalling removes all on-device data. Conversation history lives only on your Mac — delete it there, or ask us at the contact above.</p>
+<h2>2. Encrypted notifications</h2>
+<p>When you turn on notifications, the phone creates a notification key and hands it to your computer only inside the end-to-end encrypted channel. Your computer encrypts each notification's session name and work summary (the start of the last answer, the tool and request awaiting approval, or the failure reason) with that key (ChaCha20-Poly1305), and the phone decrypts it on arrival.</p>
 
-<h2>3. Third parties and transfers</h2>
-<p>Only when push is enabled: the Expo push service receives the push token plus status-only text (approval/finished/failed, no conversation content) for delivery via Apple APNs / Google FCM. The relay is hosted on Cloudflare and sees only undecryptable bytes plus a room-auth hash. Nothing else is shared with third parties.</p>
+<h2>3. Retention and deletion</h2>
+<p><strong>Unpair</strong> in Settings to immediately delete keys and queued messages on the phone (while connected, this also removes the push token and notification key from your computer). Uninstalling removes all on-device data. Conversation history lives only on your computer — delete it there, or ask us at the contact above.</p>
 
-<h2>4. Your rights and contact</h2>
-<p>Delete on-device data via Unpair/uninstall; request deletion of Mac-side tokens or records at ehxhfl92@gmail.com (RippleWorks), handled without delay. Not directed at children under 14.</p>
+<h2>4. Third parties and transfers</h2>
+<p>Only when push is enabled: the Expo push service receives the push token, fixed status text, the session id and the encrypted notification content (which it cannot read), for delivery via Apple APNs / Google FCM. The relay is hosted on Cloudflare and sees only undecryptable bytes plus a room-auth hash. Nothing else is shared with third parties.</p>
 
-<h2>5. Changes</h2>
-<p>Changes are announced on this page with their effective date.</p>
+<h2>5. Your rights and contact</h2>
+<p>Delete on-device data via Unpair/uninstall; request deletion of computer-side tokens or records at ehxhfl92@gmail.com (RippleWorks), handled without delay. Not directed at children under 14.</p>
+
+<h2>6. Changes</h2>
+<p>Changes are announced on this page with their effective date. 2026-10-17: notifications now carry the session name and a work summary, end-to-end encrypted; the host is called "computer" instead of "Mac".</p>
 
 <p>An independent app, not affiliated with Anthropic or OpenAI.</p>
 
